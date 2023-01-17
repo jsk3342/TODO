@@ -36,3 +36,41 @@
     transform: rotate(360deg);
   }
 }
+
+.button-with-margin {
+  margin: 10px;
+  font-size: 20px;
+  line-height: 30px;
+}
+
+.button-with-margin.clear {
+  background-color: palevioletred;
+  color: wheat;
+}
+
+.fetch-result {
+  border: 5px dashed mediumpurple;
+  border-radius: 30px;
+  padding: 40px;
+  margin: 30px;
+  position: relative;
+  font-size: 20px;
+  line-height: 25px;
+  white-space: pre-wrap;
+  word-wrap:break-word;
+}
+
+.fetch-result:after {
+  content: 'Fetch Result';
+  display: block;
+  position: absolute;
+  top: -23px;
+  line-height: 25px;
+  font-size: 18px;
+  font-weight: bold;
+  color: mediumpurple;
+  background: wheat;
+  padding: 5px 10px;
+  border-radius: 20px;
+  border: 4px dashed mediumpurple;
+}

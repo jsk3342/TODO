@@ -1,46 +1,49 @@
-# Getting Started with Create React App
+# 마크비전 기술면접 과제 (Marq-TODOS)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## 프로젝트 구성
 
-## Available Scripts
+- 프로젝트는 CRA(https://create-react-app.dev/) + Typescript(https://www.typescriptlang.org/) + MSW(https://mswjs.io/)로 구성되어 있습니다. 
+- 위의 구성 외에 추가하고 싶은 패키지(ajax 도구, 상태관리 도구, 등)는 추가해도 좋습니다. 
+- 단, html+css에 대한 숙련도를 볼 수 있도록  antd, mui, 등의 ui 라이브러리는 제외하고 직접 ui를 구현해주세요.
+- 원하는 패키지 관리자를 이용하여 의존성을 설치해주세요. `yarn` 또는 `npm install` 등등
+- 원하는 패키지 관리자를 이용하여 start 명령어를 실행해주세요. `yarn start` 또는 `npm run start` 등등
+- 실행에 성공했다면 CRA 기반의 웹앱이 실행되고 아래 첨부 이미지와 같이 mock api 구현체를 간단히 테스트해볼 수 있는 ui를 제공하고 있습니다.
 
-In the project directory, you can run:
+![mock api 이미지](./public/mock-api-test-ui.png)
 
-### `npm start`
+## 과제 요구사항
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+다음의 기능을 갖고있는 todo 앱을 개발해주세요.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+- 사용자는 문자열로 된 todo를 추가 할 수 있다.
+- 작성일, 최종수정일, 내용, 참조하고 있는 todo들의 id가 표시되어야 한다. (예시 참고)
+- 사용자는 todo를 완료 또는 미완료로 상태변경을 할 수 있다.
+- todo는 다른 todo들을 참조할 수 있다.
+- 참조하고 있는 todo들이 모두 완료 상태가 아니라면 todo를 완료할 수 없다.
+- 사용자는 todo 목록을 조회할 수 있다.
+- 사용자는 todo를 수정할 수 있다.
+- 사용자는 todo를 삭제할 수 있다.
 
-### `npm test`
+다음의 기능을 구현하시면 추가 점수를 획득할 수 있습니다.
+- 페이지네이션! 페이지네이션은 무한 스크롤로 구현하셔도 좋습니다.
+- 프로젝트-root/src/mocks/handlers.ts 에 mock api를 구현하고 todo 앱이 해당 api를 통해서 작동하도록 구현.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## 구현 예시 이미지
+  ![예시 이미지](./public/marq-todos.png)
+- todo 1은 완료 상태이다. 
+- todo 3은 todo 1, 2를 참조하고 있다. 
+- todo 3은 todo 1, 2가 완료되기 전에는 완료되면 안 됨. 
+- 예시 이미지에는 없지만 개발 스펙에 명시된 것 처럼 작성일과 최종수정일이 출력되도록 구현해주세요.
 
-### `npm run build`
+## 기타 요구사항
+- react 기반 웹앱으로 개발 
+- db 사용과 관련하여 제약 없음. 메모리에 적당히 저장하던가 파일로 저장해도 OK~
+- 유닛테스트 작성 시 가산점 
+- 요구사항에 정의돼 있지 않은 스펙들(투두 수정하기, 삭제할 때의 제약사항, 등등)은 일반적인 투두 앱들과 비슷하게 구현하시고 면접 때 관련된 내용을 설명해주시면 됩니다. 
+- 재직 중이어서 시간이 부족한 점, 때문에 모든 스펙을 구현하기 어려운 점, 등은 잘 알고있고 과제물을 검토할 때 충분히 감안하겠습니다.
+- 단, 구현한 기능은 모두 정상작동되고 시연해주실 수 있도록 잘 마무리 해주세요.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+## 결과물 제출
+- 소스코드를 zip으로 압축해서 첨부하거나 github, bit bucket, 등 원격 저장소에 업로드한 후 url을 이메일 회신을 통해 공유해주시면 됩니다.
+- 반드시 readme.md 등에 빌드 및 실행 방법을 명시해주세요.
+- 개발기간은 일주일입니다. 예를 들어 과제물을 알려드린 시간이 목요일이었다면 다음날인 금요일부터 개발을 시작하는 것으로 보고, 차주 금요일 오전까지 개발한 내용을 공유해주시면 됩니다.

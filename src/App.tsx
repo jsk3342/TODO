@@ -1,25 +1,107 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { useState } from 'react';
 import './App.css';
 
+async function callApi<T = any>({ url, method }: { url: string; method: string; }) {
+  const res = await fetch(url, { method });
+  const json = await res?.json();
+
+  if (!res.ok) {
+    throw {
+      statusText: res.statusText,
+      json
+    };
+  }
+
+  return json as T;
+}
+
 function App() {
+  const [fetchResult, setFetchResult] = useState<string[]>([]);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
+      <>
+        <button
+            className="button-with-margin"
+            onClick={async () => {
+              try {
+                const json = await callApi<{ messages: string }>({
+                  url: '/test',
+                  method: 'post'
+                });
+
+                setFetchResult([...fetchResult, JSON.stringify(json.messages)]);
+              } catch (e) {
+                console.log('e', e);
+              }
+            }}
         >
-          Learn React
-        </a>
-      </header>
-    </div>
+          post test
+        </button>
+        <button
+            className="button-with-margin"
+            onClick={async () => {
+              try {
+                const json = await callApi<{ messages: string }>({
+                  url: '/test',
+                  method: 'get'
+                });
+
+                setFetchResult([...fetchResult, JSON.stringify(json.messages)]);
+              } catch (e) {
+                console.log('e', e);
+              }
+            }}
+        >
+          get test
+        </button>
+        <button
+            className="button-with-margin"
+            onClick={async () => {
+              try {
+                const json = await callApi<{ messages: string }>({
+                  url: '/test',
+                  method: 'put'
+                });
+
+                setFetchResult([...fetchResult, JSON.stringify(json.messages)]);
+              } catch (e) {
+                console.log('e', e);
+              }
+            }}
+        >
+          put test
+        </button>
+        <button
+            className="button-with-margin"
+            onClick={async () => {
+              try {
+                const json = await callApi<{ messages: string }>({
+                  url: '/test',
+                  method: 'delete'
+                });
+
+                setFetchResult([...fetchResult, JSON.stringify(json.messages)]);
+              } catch (e) {
+                console.log('e', e);
+              }
+            }}
+        >
+          delete test
+        </button>
+        <button
+            className="button-with-margin clear"
+            onClick={() => setFetchResult([])}
+        >
+          Clear!
+        </button>
+        <br />
+        <br />
+        {fetchResult?.length > 0 && (
+          <ul className="fetch-result">
+            {[...fetchResult].reverse().map((v, i) => <li key={`${v}-${i}`}>{v}</li>)}
+          </ul>
+        )}
+      </>
   );
 }
 
