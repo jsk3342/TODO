@@ -6,16 +6,16 @@ interface TodoItemTypes {
   isCompleted: boolean;
 }
 
-const todoItemStyle = css`
-  padding: 10px 16px;
-  border-radius: 30px;
-  color: black;
-  border: 1px solid white;
-  font-size: 1.4rem;
-  font-weight: 700;
-  background-color: lightpink;
-  cursor: pointer;
-`;
+// const todoItemStyle = css`
+//   padding: 10px 16px;
+//   border-radius: 30px;
+//   color: black;
+//   border: 1px solid white;
+//   font-size: 1.4rem;
+//   font-weight: 700;
+//   background-color: lightpink;
+//   cursor: pointer;
+// `;
 
 const Todo = styled.li`
   display: flex;
@@ -32,9 +32,15 @@ const TodoChecker = styled.div`
   font-size: 20px;
 `;
 
+const TodoText = styled.h2`
+  color: #adb5bd;
+  text-decoration: line-through;
+  text-decoration-color: black;
+`;
+
 const CheckBox = styled.input`
-  margin-right: 5px;
   zoom: 3;
+  margin-right: 5px;
 `;
 
 const ButtonContainer = styled.div`
@@ -57,7 +63,7 @@ export default function TodoItem({ text, isCompleted }: TodoItemTypes) {
     <Todo>
       <TodoChecker>
         <CheckBox type={"checkbox"} />
-        <h2>todo</h2>
+        <TodoText>todo</TodoText>
       </TodoChecker>
       <ButtonContainer>
         <Button>Edit</Button>

@@ -7,8 +7,31 @@ async function callApi<T = any>({
 }: {
   url: string;
   method: string;
+  body?: any;
 }) {
   const res = await fetch(url, { method });
+  const json = await res?.json();
+
+  if (!res.ok) {
+    throw {
+      statusText: res.statusText,
+      json,
+    };
+  }
+
+  return json as T;
+}
+
+async function PostApi<T = any>({
+  url,
+  method,
+  body,
+}: {
+  url: string;
+  method: string;
+  body?: any;
+}) {
+  const res = await fetch(url, { method, body });
   const json = await res?.json();
 
   if (!res.ok) {
@@ -30,9 +53,14 @@ function AppButton() {
         className="button-with-margin"
         onClick={async () => {
           try {
-            const json = await callApi<{ messages: string }>({
+            const json = await PostApi<{ messages: string }>({
               url: "/todos",
-              method: "post",
+              method: "POST",
+              body: JSON.stringify({
+                title: "밥먹기",
+                isCompleted: true,
+                date: Date.now(),
+              }),
             });
 
             setFetchResult([...fetchResult, JSON.stringify(json.messages)]);
