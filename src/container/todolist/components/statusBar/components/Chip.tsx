@@ -2,9 +2,21 @@ import React from "react";
 import styled, { css } from "styled-components";
 
 interface Chiptypes {
-  text: string;
+  children: React.ReactNode;
   isFocus: boolean;
   onClick: () => any;
+}
+
+export default function Chip({ children, isFocus, onClick }: Chiptypes) {
+  return (
+    <ChipItem onClick={onClick}>
+      {isFocus ? (
+        <ChipFocusButton>{children}</ChipFocusButton>
+      ) : (
+        <ChipButton>{children}</ChipButton>
+      )}
+    </ChipItem>
+  );
 }
 
 const chipStyle = css`
@@ -25,21 +37,10 @@ const ChipItem = styled.li`
 `;
 
 const ChipButton = styled.button`
-  ${chipStyle}/* background-color: inherit; */
+  ${chipStyle}
+  background-color: inherit;
 `;
 
 const ChipFocusButton = styled.button`
   ${chipStyle}
 `;
-
-export default function Chip({ text, isFocus, onClick }: Chiptypes) {
-  return (
-    <ChipItem onClick={onClick}>
-      {isFocus ? (
-        <ChipFocusButton>{text}</ChipFocusButton>
-      ) : (
-        <ChipButton>{text}</ChipButton>
-      )}
-    </ChipItem>
-  );
-}
