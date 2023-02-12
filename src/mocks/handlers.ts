@@ -1,6 +1,6 @@
 import { rest } from "msw";
 
-interface todosType {
+export interface todosType {
   title: string;
   isCompleted: boolean;
   date: number;
