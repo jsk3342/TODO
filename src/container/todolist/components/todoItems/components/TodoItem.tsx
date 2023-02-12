@@ -63,7 +63,7 @@ export default function TodoItem({ text, isCompleted }: TodoItemTypes) {
     <Todo>
       <TodoChecker>
         <CheckBox type={"checkbox"} />
-        <TodoText>todo</TodoText>
+        <TodoText>{text}</TodoText>
       </TodoChecker>
       <ButtonContainer>
         <Button>Edit</Button>
