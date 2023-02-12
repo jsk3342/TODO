@@ -1,6 +1,25 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import styled from "styled-components";
 import Chip from "./components/Chip";
+
+const statusList = ["ALL", "Active", "Completed"];
+
+export default function StatusBar({totalCount} :{totalCount:number}) {
+  const [status, setStatus] = useState(statusList[0]);
+
+  return (
+    <FlexBox>
+      <Tasks>{totalCount} tasks</Tasks>
+      <Chips>
+        {statusList.map((statusItem, index) => (
+          <Chip key={index} isFocus={status === statusItem} onClick={() => setStatus(statusItem)}>
+            {statusItem}
+          </Chip>
+        ))}
+      </Chips>
+    </FlexBox>
+  );
+}
 
 const FlexBox = styled.div`
   display: flex;
@@ -15,24 +34,3 @@ const Chips = styled.ul`
   display: flex;
   gap: 8px;
 `;
-
-const categories = ["ALL", "Active", "Completed"];
-
-export default function StatusBar() {
-  const [type, setType] = useState(categories[0]);
-  return (
-    <FlexBox>
-      <Tasks>5 tasks</Tasks>
-      <Chips>
-        {categories.map((category) => (
-          <Chip
-            text={category}
-            isFocus={false}
-            onClick={() => setType(category)}
-            key={category + Date.now()}
-          />
-        ))}
-      </Chips>
-    </FlexBox>
-  );
-}
