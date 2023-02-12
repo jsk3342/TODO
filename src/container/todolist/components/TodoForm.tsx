@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import styled from "styled-components";
+import { useAddTodoMutation } from "../../../queries/useAddTodos";
 
 const FlexBox = styled.div`
   display: flex;
@@ -29,22 +30,21 @@ const TodoSumitButton = styled.button`
 
 export default function TodoForm() {
   const [todo, setTodo] = useState("");
-  const onChange = (event: React.FormEvent<HTMLInputElement>) => {
-    const {
-      currentTarget: { value },
-    } = event;
-    setTodo(value);
-  };
-  const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-  };
+  const { mutate: addTodoMutate } = useAddTodoMutation();
+
+  const handleOnClick = useCallback(() => {
+    addTodoMutate({
+      title: todo,
+      isCompleted: false,
+      date: Date.now(),
+    });
+    setTodo("");
+  }, [todo, addTodoMutate]);
 
   return (
-    <form onSubmit={onSubmit}>
-      <FlexBox>
-        <TodoInput onChange={onChange} value={todo} />
-        <TodoSumitButton>Add Todo</TodoSumitButton>
-      </FlexBox>
-    </form>
+    <FlexBox>
+      <TodoInput onChange={(e) => setTodo(e.target.value)} value={todo} />
+      <TodoSumitButton onClick={handleOnClick}>Add Todo</TodoSumitButton>
+    </FlexBox>
   );
 }
