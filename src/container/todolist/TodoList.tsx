@@ -5,6 +5,7 @@ import styled from "styled-components";
 import TodoForm from "./components/TodoForm";
 import StatusBar from "./components/statusBar/index";
 import TodoItems from "./components/todoItems/index";
+import { todosType } from "../../mocks/handlers";
 
 const Container = styled.div`
   padding: 30px;
@@ -24,10 +25,12 @@ const Title = styled.h1`
 `;
 
 const TodoList = () => {
-  const fetchTodos = useGetTodos();
-  const [todos, setTodos] = useState(fetchTodos);
-  console.log(todos);
-  useEffect(() => {}, [todos]);
+  const todoList = useGetTodos();
+  const [todos, setTodos] = useState(todoList);
+  useEffect(() => {
+    setTodos(todoList);
+  }, [todoList]);
+
   return (
     <Container>
       <ErrorBoundary fallback={<div>에러가 발생했습니다.</div>}>
@@ -38,7 +41,9 @@ const TodoList = () => {
           </Header>
           <Main>
             <StatusBar />
-            <TodoItems />
+            {todos.map((todo: todosType) => (
+              <TodoItems todo={todo} key={todo.title + Date.now()} />
+            ))}
           </Main>
         </Suspense>
       </ErrorBoundary>
