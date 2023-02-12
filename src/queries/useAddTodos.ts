@@ -3,7 +3,11 @@ import { addTodos } from "../apis/base/addTodos";
 import { queryClient } from "../apis/instance";
 import { TODO_URL } from "../constants/url";
 
-export const useAddTodoMutation = () => {
+type Params = {
+  onSuccess?: () => void;
+};
+
+export const useAddTodoMutation = ({ onSuccess }: Params = {}) => {
   return useMutation(addTodos, {
     onSuccess: (data) => {
       queryClient.invalidateQueries(TODO_URL);
