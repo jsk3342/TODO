@@ -1,6 +1,45 @@
-import React, { useCallback, useState } from "react";
+import { useRef } from "react";
 import styled from "styled-components";
 import { useAddTodoMutation } from "../../../queries/useAddTodos";
+
+export default function TodoForm() {
+  const inputRef = useRef<HTMLInputElement>(null);
+  const { mutate } = useAddTodoMutation({
+    onSuccess: () => {
+      if (inputRef.current == null) {
+        return;
+      }
+
+      inputRef.current.value = "";
+    },
+  });
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    if (inputRef.current == null || inputRef.current.value === "") {
+      return;
+    }
+
+    mutate({ title: inputRef.current.value });
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      handleSubmit(e);
+    }
+  };
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <FlexBox>
+        <TodoInput ref={inputRef} onKeyDown={handleKeyDown} />
+        <TodoSubmitButton type="submit">Add Todo</TodoSubmitButton>
+      </FlexBox>
+    </form>
+  );
+}
+
 
 const FlexBox = styled.div`
   display: flex;
@@ -18,7 +57,7 @@ const TodoInput = styled.input`
   background-color: lightyellow;
 `;
 
-const TodoSumitButton = styled.button`
+const TodoSubmitButton = styled.button`
   font-size: 25px;
   font-weight: bold;
   line-height: 25px;
@@ -27,24 +66,3 @@ const TodoSumitButton = styled.button`
   border-radius: 5px;
   cursor: pointer;
 `;
-
-export default function TodoForm() {
-  const [todo, setTodo] = useState("");
-  const { mutate: addTodoMutate } = useAddTodoMutation();
-
-  const handleOnClick = useCallback(() => {
-    addTodoMutate({
-      title: todo,
-      isCompleted: false,
-      date: Date.now(),
-    });
-    setTodo("");
-  }, [todo, addTodoMutate]);
-
-  return (
-    <FlexBox>
-      <TodoInput onChange={(e) => setTodo(e.target.value)} value={todo} />
-      <TodoSumitButton onClick={handleOnClick}>Add Todo</TodoSumitButton>
-    </FlexBox>
-  );
-}
