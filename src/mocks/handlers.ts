@@ -1,21 +1,39 @@
 import { rest } from "msw";
 
-export interface todosType {
+interface TodosType {
   title: string;
   isCompleted: boolean;
   date: number;
 }
 
-const todos: todosType = {
+const todos: TodosType = {
   title: "밥먹기",
   isCompleted: false,
   date: Date.now(),
 };
 
-const data = { messages: [todos] };
+const todos1: TodosType = {
+  title: "씻기",
+  isCompleted: false,
+  date: Date.now(),
+};
+
+const todos2: TodosType = {
+  title: "자기",
+  isCompleted: true,
+  date: Date.now(),
+};
+
+const data = { messages: [todos, todos1, todos2] };
 
 interface PostTotoReqBody {
   title: string;
+  isCompleted: boolean;
+  date: number;
+}
+
+interface EditTotoReqBody {
+  newTitle: string;
   isCompleted: boolean;
   date: number;
 }
@@ -30,8 +48,9 @@ export const handlers = [
     );
   }),
   rest.post<string>("/todos", (req, res, ctx) => {
-    const parsedBody = JSON.parse(req.body) as PostTotoReqBody;
-    const { title, isCompleted, date } = parsedBody;
+    const { title, isCompleted, date } = JSON.parse(
+      req.body
+    ) as PostTotoReqBody;
     const newMessage = {
       title: title,
       isCompleted: isCompleted,
@@ -47,16 +66,33 @@ export const handlers = [
       })
     );
   }),
-  rest.put("/todos/:id", (req, res, ctx) => {
+  rest.put("/todos/:title", (req, res, ctx) => {
+    const { title } = req.params;
+
+    let body = req.body;
+    if (typeof req.body === "string") {
+      body = JSON.parse(req.body);
+    }
+
+    const { newTitle, isCompleted } = body as EditTotoReqBody;
+
+    let todoToUpdate = data.messages.find((todo) => todo.title === title);
+    if (todoToUpdate) {
+      todoToUpdate.title = newTitle;
+      todoToUpdate.isCompleted = isCompleted;
+    }
+
     return res(
       ctx.status(200),
       ctx.json({
-        messages: "put!!!",
+        messages: "put",
       })
     );
   }),
-  rest.delete("/todos/:id", (req, res, ctx) => {
-    data.messages = [];
+
+  rest.delete("/todos/:title", (req, res, ctx) => {
+    const { title } = req.params;
+    data.messages = data.messages.filter((todo) => todo.title !== title);
 
     return res(
       ctx.status(200),
