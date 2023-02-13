@@ -4,11 +4,11 @@ import { fetchInstance } from "../instance/index";
 
 export const editTodos = ({
   title,
-  newTitle,
   isCompleted,
+  newTitle = null,
 }: {
   title: Message["title"];
-  newTitle: Message["title"];
+  newTitle: Message["newTitle"];
   isCompleted: Message["isCompleted"];
 }) => {
   return fetchInstance().put(

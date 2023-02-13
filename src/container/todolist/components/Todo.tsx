@@ -12,15 +12,23 @@ export default function Todo({ title, isCompleted }: Message) {
   const { mutate: deleteTodosMutation } = useDeleteTodosMutation();
 
   const onClickEditTodos = () => {
-    editTodosMutation({ title, newTitle, isCompleted });
+    editTodosMutation({ title, isCompleted, newTitle });
     setEdited(false);
     setNewTitle(newTitle);
+  };
+
+  const onClickCheckBox = () => {
+    editTodosMutation({ title, isCompleted: !isCompleted, newTitle });
   };
 
   return (
     <Wrapper>
       <TodoChecker>
-        <CheckBox type={"checkbox"} checked={isCompleted} />
+        <CheckBox
+          type={"checkbox"}
+          checked={isCompleted}
+          onClick={onClickCheckBox}
+        />
         {!isEditeMode ? (
           !isCompleted ? (
             <TodoTitle>{title}</TodoTitle>
@@ -102,4 +110,5 @@ const Input = styled.input`
   font-size: 20px;
   border: none;
   outline: none;
+  background-color: inherit;
 `;

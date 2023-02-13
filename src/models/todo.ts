@@ -4,6 +4,7 @@ export type Todos = {
 
 export type Message = {
   title: string;
+  newTitle?: string | null;
   isCompleted: boolean;
   date: number;
 };
