@@ -1,31 +1,57 @@
-import styled, { css } from "styled-components";
+import { useState } from "react";
+import styled from "styled-components";
 import { Message } from "../../../models/todo";
+import { useDeleteTodosMutation } from "../../../queries/useDeleteTodos";
+import { useEditTodosMutation } from "../../../queries/useEditTodos";
 
 export default function Todo({ title, isCompleted }: Message) {
+  const [isEditeMode, setEdited] = useState(false);
+  const [newTitle, setNewTitle] = useState(title);
+
+  const { mutate: editTodosMutation } = useEditTodosMutation();
+  const { mutate: deleteTodosMutation } = useDeleteTodosMutation();
+
+  const onClickEditTodos = () => {
+    editTodosMutation({ title, newTitle, isCompleted });
+    setEdited(false);
+    setNewTitle(newTitle);
+  };
+
   return (
     <Wrapper>
       <TodoChecker>
-        <CheckBox type={"checkbox"} />
-        <TodoText>{title}</TodoText>
+        <CheckBox type={"checkbox"} checked={isCompleted} />
+        {!isEditeMode ? (
+          !isCompleted ? (
+            <TodoTitle>{title}</TodoTitle>
+          ) : (
+            <TodoCompletedTitle>{title}</TodoCompletedTitle>
+          )
+        ) : (
+          <Input
+            type="text"
+            value={newTitle}
+            onChange={(event) => setNewTitle(event.target.value)}
+          />
+        )}
       </TodoChecker>
       <ButtonContainer>
-        <Button>Edit</Button>
-        <Button>Delete</Button>
+        {!isEditeMode ? (
+          <Button onClick={() => setEdited(true)}>Edit</Button>
+        ) : (
+          <Button onClick={onClickEditTodos}>Save Todo</Button>
+        )}
+        <Button
+          onClick={() => {
+            deleteTodosMutation({ title });
+          }}
+        >
+          Delete
+        </Button>
       </ButtonContainer>
     </Wrapper>
   );
 }
-
-// const todoItemStyle = css`
-//   padding: 10px 16px;
-//   border-radius: 30px;
-//   color: black;
-//   border: 1px solid white;
-//   font-size: 1.4rem;
-//   font-weight: 700;
-//   background-color: lightpink;
-//   cursor: pointer;
-// `;
 
 const Wrapper = styled.li`
   display: flex;
@@ -42,7 +68,11 @@ const TodoChecker = styled.div`
   font-size: 20px;
 `;
 
-const TodoText = styled.h2`
+const TodoTitle = styled.h2`
+  color: black;
+`;
+
+const TodoCompletedTitle = styled.h2`
   color: #adb5bd;
   text-decoration: line-through;
   text-decoration-color: black;
@@ -66,4 +96,10 @@ const Button = styled.button`
   border-style: none;
   padding: 0 10px;
   cursor: pointer;
+`;
+
+const Input = styled.input`
+  font-size: 20px;
+  border: none;
+  outline: none;
 `;
