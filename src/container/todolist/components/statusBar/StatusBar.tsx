@@ -1,18 +1,25 @@
-import { useState } from "react";
+import { useContext } from "react";
 import styled from "styled-components";
+import { statusList, TodoListContext } from "../../contexts/TodoListContext";
 import Chip from "./components/Chip";
 
-const statusList = ["ALL", "Active", "Completed"];
-
-export default function StatusBar({totalCount} :{totalCount:number}) {
-  const [status, setStatus] = useState(statusList[0]);
+export default function StatusBar({ totalCount }: { totalCount: number }) {
+  const context = useContext(TodoListContext);
+  if (!context) {
+    throw new Error("TodoListContext is not defined");
+  }
+  const { status, setStatus } = context;
 
   return (
     <FlexBox>
       <Tasks>{totalCount} tasks</Tasks>
       <Chips>
         {statusList.map((statusItem, index) => (
-          <Chip key={index} isFocus={status === statusItem} onClick={() => setStatus(statusItem)}>
+          <Chip
+            key={index}
+            isFocus={status === statusItem}
+            onClick={() => setStatus(statusItem)}
+          >
             {statusItem}
           </Chip>
         ))}
