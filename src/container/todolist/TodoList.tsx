@@ -1,12 +1,16 @@
-import { useGetTodos } from "../../queries/usefetchTodos";
 import styled from "styled-components";
 import TodoForm from "./components/TodoForm";
 import StatusBar from "./components/statusBar/index";
 import Todo from "./components/Todo";
-
+import { useContext } from "react";
+import { TodoListContext } from "./contexts/TodoListContext";
 
 const TodoList = () => {
-  const todoList = useGetTodos();
+  const context = useContext(TodoListContext);
+  if (!context) {
+    throw new Error("TodoListContext is not defined");
+  }
+  const { showList } = context;
 
   return (
     <Container>
@@ -14,10 +18,10 @@ const TodoList = () => {
         <Title>Marq-TODO</Title>
         <TodoForm />
       </Header>
-      <StatusBar totalCount={todoList.length}/>
+      <StatusBar totalCount={showList.length} />
       <Main>
         <TodoWrapper>
-          {todoList.map((todo, index) => (
+          {showList.map((todo, index) => (
             <Todo key={index} {...todo} />
           ))}
         </TodoWrapper>
