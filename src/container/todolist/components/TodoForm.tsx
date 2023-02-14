@@ -14,7 +14,7 @@ export default function TodoForm() {
     },
   });
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: any) => {
     e.preventDefault();
 
     if (inputRef.current == null || inputRef.current.value === "") {
@@ -22,6 +22,7 @@ export default function TodoForm() {
     }
 
     mutate({ title: inputRef.current.value });
+    inputRef.current.value = "";
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -39,7 +40,6 @@ export default function TodoForm() {
     </form>
   );
 }
-
 
 const FlexBox = styled.div`
   display: flex;
