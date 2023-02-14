@@ -21,8 +21,8 @@ const TodoList = () => {
       <StatusBar totalCount={showList.length} />
       <Main>
         <TodoWrapper>
-          {showList.map((todo, index) => (
-            <Todo key={index} {...todo} />
+          {showList.map(todo => (
+            <Todo key={todo.title + todo.date} {...todo} />
           ))}
         </TodoWrapper>
       </Main>
