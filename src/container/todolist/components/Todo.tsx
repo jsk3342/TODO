@@ -17,17 +17,13 @@ export default function Todo({ title, isCompleted }: Message) {
     setNewTitle(newTitle);
   };
 
-  const onClickCheckBox = () => {
-    editTodosMutation({ title, isCompleted: !isCompleted, newTitle });
-  };
-
   return (
     <Wrapper>
       <TodoChecker>
         <CheckBox
           type={"checkbox"}
-          checked={isCompleted}
-          onClick={onClickCheckBox}
+          defaultChecked={isCompleted}
+          onClick={() => editTodosMutation({ title, isCompleted: !isCompleted, newTitle })}
         />
         {!isEditeMode ? (
           !isCompleted ? (
@@ -47,7 +43,10 @@ export default function Todo({ title, isCompleted }: Message) {
         {!isEditeMode ? (
           <Button onClick={() => setEdited(true)}>Edit</Button>
         ) : (
-          <Button onClick={onClickEditTodos}>Save Todo</Button>
+          <>
+            <Button onClick={onClickEditTodos}>Save Todo</Button>
+            <Button onClick={() => {setEdited(false); setNewTitle(title)}}>Cancel</Button>
+          </>
         )}
         <Button
           onClick={() => {
