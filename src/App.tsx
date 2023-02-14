@@ -3,6 +3,7 @@ import { ErrorBoundary } from "react-error-boundary";
 import AppButton from "./App copy";
 import "./App.css";
 import Todolist from "./container/todolist";
+import { TodoListContextProvider } from "./container/todolist/contexts/TodoListContext";
 
 function App() {
   return (
@@ -10,7 +11,9 @@ function App() {
       <AppButton />
       <ErrorBoundary fallback={<div>에러가 발생했습니다.</div>}>
         <Suspense fallback={<div>로딩 중입니다.</div>}>
-          <Todolist />
+          <TodoListContextProvider>
+            <Todolist />
+          </TodoListContextProvider>
         </Suspense>
       </ErrorBoundary>
     </>
