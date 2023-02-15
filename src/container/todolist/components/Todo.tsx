@@ -3,8 +3,9 @@ import styled from "styled-components";
 import { Message } from "../../../models/todo";
 import { useDeleteTodosMutation } from "../../../queries/useDeleteTodos";
 import { useEditTodosMutation } from "../../../queries/useEditTodos";
+import formatDate from "../util/formatDate";
 
-export default function Todo({ title, isCompleted }: Message) {
+export default function Todo({ id, title, isCompleted, refId, regTs, updTs }: Message) {
   const [isEditeMode, setEdited] = useState(false);
   const [newTitle, setNewTitle] = useState(title);
 
@@ -12,7 +13,12 @@ export default function Todo({ title, isCompleted }: Message) {
   const { mutate: deleteTodosMutation } = useDeleteTodosMutation();
 
   const onClickEditTodos = () => {
-    editTodosMutation({ title, isCompleted, newTitle });
+    editTodosMutation({ 
+      id,
+      newTitle,
+      isCompleted,
+      regTs, 
+    });
     setEdited(false);
     setNewTitle(newTitle);
   };
@@ -23,21 +29,33 @@ export default function Todo({ title, isCompleted }: Message) {
         <CheckBox
           type={"checkbox"}
           defaultChecked={isCompleted}
-          onClick={() => editTodosMutation({ title, isCompleted: !isCompleted, newTitle })}
+          onClick={() => editTodosMutation({ 
+            id,
+            newTitle,
+            isCompleted: !isCompleted,
+            regTs,  
+          })}
         />
-        {!isEditeMode ? (
-          !isCompleted ? (
-            <TodoTitle>{title}</TodoTitle>
-          ) : (
-            <TodoCompletedTitle>{title}</TodoCompletedTitle>
-          )
-        ) : (
-          <Input
-            type="text"
-            value={newTitle}
-            onChange={(event) => setNewTitle(event.target.value)}
-          />
-        )}
+        <TitleWrapper>
+          {!isEditeMode ? (
+            !isCompleted ? (
+              <TodoTitle>ID:{id} {title}</TodoTitle>
+              ) : (
+                <TodoCompletedTitle>ID:{id} {title}</TodoCompletedTitle>
+                )
+                ) : (
+                  <Input
+                  type="text"
+                  value={newTitle}
+                  onChange={(event) => setNewTitle(event.target.value)}
+                  />
+                  )}
+          <div>
+            <span>참조 id : {refId}</span>
+            <span>등록일 : {formatDate(regTs)}</span>
+            <span>수정일 : {updTs}</span>
+          </div>
+        </TitleWrapper>
       </TodoChecker>
       <ButtonContainer>
         {!isEditeMode ? (
@@ -50,7 +68,7 @@ export default function Todo({ title, isCompleted }: Message) {
         )}
         <Button
           onClick={() => {
-            deleteTodosMutation({ title });
+            deleteTodosMutation({ id });
           }}
         >
           Delete
@@ -69,6 +87,11 @@ const Wrapper = styled.li`
   background-color: #e9e9e9;
   margin-bottom: 10px;
 `;
+
+const TitleWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+`
 
 const TodoChecker = styled.div`
   display: flex;
