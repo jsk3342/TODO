@@ -6,11 +6,13 @@ export const editTodos = ({
   id,
   newTitle,
   isCompleted,
+  refId,
   regTs,
 }: {
   id: Message["id"];
   newTitle: Message["title"];
   isCompleted: Message["isCompleted"];
+  refId: Message["refId"]
   regTs: Message["regTs"]
 }) => {
   return fetchInstance().put(
@@ -19,6 +21,7 @@ export const editTodos = ({
       id: id,
       newTitle: newTitle,
       isCompleted: isCompleted,
+      refId: refId,
       regTs: regTs,
       updts: Date.now(),
     })
