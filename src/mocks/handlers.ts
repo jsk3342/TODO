@@ -4,7 +4,7 @@ export interface TodosType {
   id: number;
   title: string;
   isCompleted: boolean;
-  refId?: number[];
+  refId?: TodosType[] | number[];
   regTs: number;
   updTs?: number | null;
 }
@@ -22,7 +22,7 @@ interface EditTotoReqBody {
   id: number;
   newTitle: string;
   isCompleted: boolean;
-  refId: number[];
+  refId?: TodosType[] | [];
   regTs: number;
   updTs: number | null;
 }
@@ -91,11 +91,12 @@ export const handlers = [
     const { id, title, isCompleted, refId, regTs } = JSON.parse(
       req.body
     ) as PostTotoReqBody;
+    const newRefId = refId.flatMap(id => data.messages.filter(todo => todo.id === id))
     const newMessage = {
       id: id,
       title: title,
       isCompleted: isCompleted,
-      refId: refId,
+      refId: newRefId,
       regTs: regTs,
       updTs: null,
     };
