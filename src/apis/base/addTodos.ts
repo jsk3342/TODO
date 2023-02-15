@@ -2,10 +2,13 @@ import { TODO_URL } from "../../constants/url";
 import { Message } from "../../models/todo";
 import { fetchInstance } from "../instance/index";
 
-export const addTodos = ({ title }: { title: Message["title"] }) => {
+export const addTodos = ({ id, title, regTs ,refId }: { id: Message["id"],  title: Message["title"], regTs:Message["regTs"], refId: Message["refId"] }) => {
   return fetchInstance().post(TODO_URL,  JSON.stringify({
-    title,
+    id: id,
+    title: title,
     isCompleted: false,
-    date: Date.now(),
+    refId: refId,
+    regTs: regTs,
+    updts: null,
   }));
 };
