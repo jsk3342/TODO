@@ -22,7 +22,7 @@ const TodoList = () => {
       <Main>
         <TodoWrapper>
           {showList.map(todo => (
-            <Todo key={todo.title + todo.date} {...todo} />
+            <Todo key={todo.id} {...todo} />
           ))}
         </TodoWrapper>
       </Main>
