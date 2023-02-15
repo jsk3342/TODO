@@ -17,24 +17,42 @@ export default function Todo({ id, title, isCompleted, refId, regTs, updTs }: Me
       id,
       newTitle,
       isCompleted,
+      refId,
       regTs, 
     });
     setEdited(false);
     setNewTitle(newTitle);
   };
 
+  const onClickCheckBox = () => {
+    if(isCompleted){
+      editTodosMutation({ 
+        id,
+        newTitle,
+        isCompleted: !isCompleted,
+        refId,
+        regTs,  
+      })
+    } else {
+      if(refId?.every((item)=> item.isCompleted)) {
+        editTodosMutation({ 
+          id,
+          newTitle,
+          isCompleted: !isCompleted,
+          refId,
+          regTs,  
+        })
+      } 
+    }
+  }
+
   return (
     <Wrapper>
       <TodoChecker>
         <CheckBox
           type={"checkbox"}
-          defaultChecked={isCompleted}
-          onClick={() => editTodosMutation({ 
-            id,
-            newTitle,
-            isCompleted: !isCompleted,
-            regTs,  
-          })}
+          checked={isCompleted}
+          onClick={onClickCheckBox}
         />
         <TitleWrapper>
           {!isEditeMode ? (
@@ -51,9 +69,13 @@ export default function Todo({ id, title, isCompleted, refId, regTs, updTs }: Me
                   />
                   )}
           <div>
-            <span>참조 id : {refId}</span>
-            <span>등록일 : {formatDate(regTs)}</span>
-            <span>수정일 : {updTs}</span>
+            {refId && refId.length > 0 && <SubContent>참조 id : {refId.map(refIdTodo => (
+              <span key={refIdTodo.title + refIdTodo.id}>
+                @{refIdTodo.id}
+              </span>
+              ))}</SubContent>}
+            <SubContent>등록일 : {formatDate(regTs)}</SubContent>
+            {updTs && <SubContent>수정일 : {formatDate(updTs)}</SubContent>}
           </div>
         </TitleWrapper>
       </TodoChecker>
@@ -108,6 +130,12 @@ const TodoCompletedTitle = styled.h2`
   text-decoration-color: black;
 `;
 
+// const TodoCompletedContent = styled.span`
+//   color: #adb5bd;
+//   text-decoration: line-through;
+//   text-decoration-color: black;
+// `;
+
 const CheckBox = styled.input`
   zoom: 3;
   margin-right: 5px;
@@ -134,3 +162,8 @@ const Input = styled.input`
   outline: none;
   background-color: inherit;
 `;
+
+const SubContent = styled.span`
+  fonn-size: 6px;
+  margin-right: 10px;
+`
