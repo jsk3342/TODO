@@ -11,7 +11,7 @@ export default function TodoForm() {
     addTodoMutate({
       id: nextId.current,
       title: todo,
-      refId: refId.split("").map(v => +v),
+      refId: refId.split(",").map(v => +v),
       regTs: Date.now(),
     });
     setTodo("");
