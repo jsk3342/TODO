@@ -1,10 +1,11 @@
 import { createContext, useEffect, useState } from "react";
 import { TodosType } from "../../../mocks/handlers";
+import { Message } from "../../../models/todo";
 import { useGetTodos } from "../../../queries/usefetchTodos";
 
 interface TodoListContextProps {
   todoList: TodosType[];
-  showList: TodosType[];
+  showList: Message[];
   status: string;
   setStatus: React.Dispatch<React.SetStateAction<string>>;
 }
