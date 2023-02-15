@@ -3,8 +3,10 @@ export type Todos = {
 };
 
 export type Message = {
+  id: number;
   title: string;
-  newTitle?: string | null;
   isCompleted: boolean;
-  date: number;
+  refId?: number[];
+  regTs: number;
+  updTs?: number | null;
 };

@@ -3,21 +3,24 @@ import { Message } from "../../models/todo";
 import { fetchInstance } from "../instance/index";
 
 export const editTodos = ({
-  title,
+  id,
+  newTitle,
   isCompleted,
-  newTitle = null,
+  regTs,
 }: {
-  title: Message["title"];
-  newTitle: Message["newTitle"];
+  id: Message["id"];
+  newTitle: Message["title"];
   isCompleted: Message["isCompleted"];
+  regTs: Message["regTs"]
 }) => {
   return fetchInstance().put(
-    TODO_URL + `/${title}`,
+    TODO_URL + `/${id}`,
     JSON.stringify({
-      title: title,
+      id: id,
       newTitle: newTitle,
       isCompleted: isCompleted,
-      date: Date.now(),
+      regTs: regTs,
+      updts: Date.now(),
     })
   );
 };
