@@ -1,14 +1,9 @@
-import { useContext } from "react";
 import styled from "styled-components";
-import { statusList, TodoListContext } from "../../contexts/TodoListContext";
+import { statusList, useStatusContext } from "../../contexts/StatusContext";
 import Chip from "./components/Chip";
 
 export default function StatusBar({ totalCount }: { totalCount: number }) {
-  const context = useContext(TodoListContext);
-  if (!context) {
-    throw new Error("TodoListContext is not defined");
-  }
-  const { status, setStatus } = context;
+  const { status, setStatus } = useStatusContext();
 
   return (
     <FlexBox>
