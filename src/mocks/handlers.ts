@@ -4,7 +4,7 @@ export interface TodosType {
   id: number;
   title: string;
   isCompleted: boolean;
-  refId?: TodosType[] | number[];
+  refId?: TodosType[];
   regTs: number;
   updTs?: number | null;
 }
@@ -113,22 +113,30 @@ export const handlers = [
 
   rest.put("/todos/:id", (req, res, ctx) => {
     const { id } = req.params;
-
+  
     let body = req.body;
     if (typeof req.body === "string") {
       body = JSON.parse(req.body);
     }
-
+  
     const { newTitle, isCompleted, refId } = body as EditTotoReqBody;
-
+  
     let todoToUpdate = data.messages.find((todo) => String(todo.id) === id);
+  
     if (todoToUpdate) {
-      todoToUpdate.title = newTitle;
-      todoToUpdate.isCompleted = isCompleted;
-      todoToUpdate.refId = refId;
-      todoToUpdate.updTs = Date.now();
+      if (refId && refId.length > 0) {
+        todoToUpdate.title = newTitle;
+        todoToUpdate.isCompleted = isCompleted;
+        todoToUpdate.refId = data.messages.filter(todo => refId.find(refTodo => refTodo.id === todo.id));
+        todoToUpdate.updTs = Date.now();
+      } else {
+        todoToUpdate.title = newTitle;
+        todoToUpdate.isCompleted = isCompleted;
+        todoToUpdate.refId = refId;
+        todoToUpdate.updTs = Date.now();
+      }
     }
-
+    
     return res(
       ctx.status(200),
       ctx.json({
@@ -136,6 +144,7 @@ export const handlers = [
       })
     );
   }),
+  
 
   rest.delete("/todos/:id", (req, res, ctx) => {
     const { id } = req.params;
