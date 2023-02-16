@@ -15,6 +15,7 @@ TodoForm: 사용자가 할 일 목록에 새 작업을 추가할 수 있게 해�
 Todo: 할 일 목록의 각 작업을 표시하는 구성 요소입니다. 작업 텍스트와 해당 상태를 표시합니다.
 
 ## 폴더 구조
+```
 src
  ┣ apis
  ┃ ┣ base
@@ -61,6 +62,7 @@ src
  ┣ react-app-env.d.ts
  ┣ reportWebVitals.ts
  ┗ setupTests.ts
+ ```
 ## 구현 리스트
 
 - 사용자는 문자열로 된 todo를 추가 할 수 있다.
