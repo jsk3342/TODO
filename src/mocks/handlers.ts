@@ -65,6 +65,18 @@ const todos2: TodosType = {
 const data = { 
   messages: [todos, todos1, todos2] 
 };
+
+// const data  = {
+//   messages: Array.from(Array(100).keys()).map(i =>({
+//     id: i,
+//     title: `컨텐츠` + i,
+//     isCompleted: false,
+//     refId: [],
+//     regTs: Date.now(),
+//     updTs: null,
+//   }))
+// }
+
 const totalCount = data.messages.length;
 const page: PageType = {
   paging : {
@@ -79,6 +91,10 @@ const page: PageType = {
 
 export const handlers = [
   rest.get("/todos", (req, res, ctx) => {
+    const { searchParams } = req.url
+    const pageSize = Number(searchParams.get('pageSize'))
+    const pageNumber = Number(searchParams.get('pageNumber'))
+
     return res(
       ctx.status(200),
       ctx.json({
