@@ -1,13 +1,20 @@
 import styled from "styled-components";
 import TodoForm from "./components/TodoForm";
-import StatusBar from "./components/statusBar/index";
+import StatusBar from "./components/common/statusBar/index";
 import Todo from "./components/Todo";
 import { useStatusContext } from "./contexts/StatusContext";
-import { useGetTodos } from "../../queries/usefetchTodos";
+import { useGetTodos } from "../../queries/useGetTodos";
+import { useMemo } from "react";
 
 const TodoList = () => {
   const todoList = useGetTodos();
   const { status } = useStatusContext();
+
+  const filteredTodoList = useMemo(() => {
+    return todoList.filter(
+      todo => status === "ALL" ? todo : status === "Active" ? todo.isCompleted === false :  todo.isCompleted === true
+    );
+  }, [todoList, status]);
 
   return (
     <Container>
@@ -15,13 +22,10 @@ const TodoList = () => {
         <Title>Marq-TODO</Title>
         <TodoForm />
       </Header>
-      <StatusBar totalCount={todoList.filter(
-            todo => status === "ALL" ? todo : status === "Active" ? todo.isCompleted === false :  todo.isCompleted === true).length
-          } />
+      <StatusBar totalCount={filteredTodoList.length} />
       <Main>
         <TodoWrapper>
-          {todoList.filter(
-            todo => status === "ALL" ? todo : status === "Active" ? todo.isCompleted === false :  todo.isCompleted === true).map(todo => (
+          {filteredTodoList.map(todo => (
             <Todo key={todo.id} {...todo} />
           ))}
         </TodoWrapper>
