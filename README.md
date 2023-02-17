@@ -111,6 +111,8 @@ src
 - todo는 다른 todo들을 참조할 수 있습니다.
 - 참조하고 있는 todo들이 모두 완료 상태가 아니라면 todo를 완료할 수 없습니다.
 
-### 미구현 리스트
+### 도전 리스트
 
 - 무한 스크롤
+  - React Query와 React Virtuoso를 활용 및 React Virtuoso 분석
+- 리스트 드래그 앤 드롭 이벤트
