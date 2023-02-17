@@ -1,41 +1,8 @@
 import { rest } from "msw";
+import { EditTotoReqBody, PostTotoReqBody, Todos } from "../models/todo";
 
-export interface TodosType {
-  id: number;
-  title: string;
-  isCompleted: boolean;
-  refId?: TodosType[];
-  regTs: number;
-  updTs?: number | null;
-}
 
-interface PostTotoReqBody {
-  id: number;
-  title: string;
-  isCompleted: boolean;
-  refId: number[];
-  regTs: number;
-  updTs: number | null;
-}
-
-interface EditTotoReqBody {
-  id: number;
-  newTitle: string;
-  isCompleted: boolean;
-  refId?: TodosType[] | [];
-  regTs: number;
-  updTs: number | null;
-}
-interface PageType {
-  paging: {
-    pageNumber: number,
-    pageSize: number,
-    hasNext: boolean,
-    totalCount: number,
-  }
-};
-
-const todos: TodosType = {
+const todos = {
   title: "밥먹기",
   isCompleted: false,
   id: 1,
@@ -44,7 +11,7 @@ const todos: TodosType = {
   updTs: null,
 };
 
-const todos1: TodosType = {
+const todos1 = {
   title: "씻기",
   isCompleted: false,
   id: 2,
@@ -53,7 +20,7 @@ const todos1: TodosType = {
   updTs: null,
 };
 
-const todos2: TodosType = {
+const todos2 = {
   title: "자기",
   isCompleted: true,
   id: 3,
@@ -62,39 +29,12 @@ const todos2: TodosType = {
   updTs: null,
 };
 
-const data = { 
+const data:Todos = { 
   messages: [todos, todos1, todos2] 
 };
 
-// const data  = {
-//   messages: Array.from(Array(100).keys()).map(i =>({
-//     id: i,
-//     title: `컨텐츠` + i,
-//     isCompleted: false,
-//     refId: [],
-//     regTs: Date.now(),
-//     updTs: null,
-//   }))
-// }
-
-const totalCount = data.messages.length;
-const page: PageType = {
-  paging : {
-    pageNumber : 1,
-    pageSize: 10,
-    hasNext : false,
-    totalCount: totalCount,
-  }
-}
-
-// page.paging.hasNext = (page.paging.totalCount > (page.paging.pageNumber - 1) * page.paging.pageSize);
-
 export const handlers = [
   rest.get("/todos", (req, res, ctx) => {
-    const { searchParams } = req.url
-    const pageSize = Number(searchParams.get('pageSize'))
-    const pageNumber = Number(searchParams.get('pageNumber'))
-
     return res(
       ctx.status(200),
       ctx.json({
@@ -165,7 +105,6 @@ export const handlers = [
   rest.delete("/todos/:id", (req, res, ctx) => {
     const { id } = req.params;
     data.messages = data.messages.filter((todo) => String(todo.id) !== id);
-
     return res(
       ctx.status(200),
       ctx.json({
