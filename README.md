@@ -16,7 +16,7 @@
 
 ## TODO 설계
 
-구현 화면
+![GIF 2023-02-18 오전 12-38-13](https://user-images.githubusercontent.com/85912592/219698625-d5bb1854-0480-4577-b6c7-e65d625b6931.gif)
 
 ### 서버 상태와 클라이언트 상태 분리
 
