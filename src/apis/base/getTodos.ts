@@ -1,4 +1,4 @@
-import { TODO_URL } from "../../constants/url";
+import { TODO_URL } from "./url";
 import { Todos } from "../../models/todo";
 import { fetchInstance } from "../instance/index";
 

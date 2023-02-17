@@ -1,7 +1,7 @@
 import { useMutation } from "react-query";
 import { editTodos } from "../apis/base/editTodos";
 import { queryClient } from "../apis/instance";
-import { TODO_URL } from "../constants/url";
+import { TODO_URL } from "../apis/base/url";
 
 type Params = {
   onSuccess?: () => void;

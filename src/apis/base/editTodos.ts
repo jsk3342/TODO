@@ -1,4 +1,4 @@
-import { TODO_URL } from "../../constants/url";
+import { TODO_URL } from "./url";
 import { Message } from "../../models/todo";
 import { fetchInstance } from "../instance/index";
 
@@ -17,13 +17,13 @@ export const editTodos = ({
 }) => {
   return fetchInstance().put(
     TODO_URL + `/${id}`,
-    JSON.stringify({
-      id: id,
-      newTitle: newTitle,
-      isCompleted: isCompleted,
-      refId: refId,
-      regTs: regTs,
+    {
+      id,
+      newTitle,
+      isCompleted,
+      refId,
+      regTs,
       updts: Date.now(),
-    })
+    }
   );
 };
