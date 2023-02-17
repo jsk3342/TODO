@@ -7,11 +7,11 @@
 
 ## 사용 기술
 
-React (with functional components and hooks)
-React Query (for data fetching)
-styled-components (for styling)
-TypeScript
-MSW
+- React (with functional components and hooks)
+- React Query (for data fetching)
+- styled-components (for styling)
+- TypeScript
+- MSW
 ## TODO 구성
 
 StatusContext: 할 일 목록 애플리케이션에서 사용되는 상태 값을 저장하는 React 컨텍스트입니다. StatusContextProvider 컴포넌트는 하위 컴포넌트들에게 컨텍스트 값을 제공하는 역할을 하며, 하위 컴포넌트에서 상태를 변경하면 해당 변경 사항이 자동으로 컨텍스트에서 관리됩니다.
