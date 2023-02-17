@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { Message } from "../../../models/todo";
 import { useDeleteTodosMutation } from "../../../queries/useDeleteTodos";
 import { useEditTodosMutation } from "../../../queries/useEditTodos";
-import formatDate from "../util/formatDate";
+import formatDate from "./utils/formatDate";
 
 export default function Todo({ id, title, isCompleted, refId, regTs, updTs }: Message) {
   const [isEditeMode, setEdited] = useState(false);
